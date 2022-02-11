@@ -1,0 +1,6 @@
+createArray 10 False
+createArray 1000 False
+medianOfThree 0 5 0
+partition 0 5 3 0
+getArray
+ 
