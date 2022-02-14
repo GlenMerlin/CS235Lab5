@@ -6,13 +6,12 @@
 using namespace std;
 
 class QS: public QSInterface {
-    protected:
-        int valueArray[5];
     public:
     
     QS();
     
     ~QS();
+    int *valueArray = new int[15];
     int addIndex = 0;
     int size;
 

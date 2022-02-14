@@ -7,8 +7,8 @@ using namespace std;
 const int NUM_FILES = 5; // the total number of files to be read from
 
 const std::string fileArray[NUM_FILES] = { 
-	"file1.txt",
-	// "file2.txt", 
+	// "file1.txt",
+	"file2.txt", 
 	// "file3.txt", 
 	// "file4.txt", 
 	// "file5.txt" 

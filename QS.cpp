@@ -3,12 +3,19 @@
 using namespace std;
 
 QS::QS(){}
-QS::~QS(){}
+QS::~QS(){
+    delete[]valueArray;
+}
 
 bool QS::createArray(int capacity){
-    cout << "inside the createArray function" << endl;
+    
+    cout << "inside the createArray function. Capacity: " << capacity << endl;
     if (capacity > 0){
-        int valuearray[capacity];
+        int *valueArray = new int[capacity];
+
+        addIndex = 0;
+        size = capacity;
+        delete[]valueArray;
         return true;
     }
     else{
@@ -17,9 +24,8 @@ bool QS::createArray(int capacity){
 }
 
 bool QS::addToArray(int value){
-    arraySize();
+    cout << "addIndex: " << addIndex << " is less than " << size << "." << endl;
     if (addIndex < size){
-        cout << "addIndex: " << addIndex << " is less than " << size << "." << endl;
         valueArray[addIndex] = value;
         addIndex++;
         return true;
@@ -34,8 +40,23 @@ void QS::sortAll(){
     // cout << "inside the function" << endl;
 }
 int QS::medianOfThree(int left, int right){
-    // cout << "inside the function" << endl;
-    return 0;
+    int middle = (left+right)/2;
+    if (size < 1){
+        return -1;
+    }
+    if (left < 0 || right > size || left > right || middle <= 0){
+        return -1;
+    }
+    if (valueArray[left] > valueArray[middle]){
+        swap(valueArray[left], valueArray[middle]);
+    }
+    if (valueArray[middle] > valueArray[right]){
+        swap(valueArray[middle], valueArray[right]);
+    }
+    if (valueArray[middle] < valueArray[left]){
+        swap(valueArray[middle], valueArray[left]);
+    }
+    return middle;
 }
 int QS::partition(int left, int right, int pivotIndex){
     // cout << "inside the function" << endl;
@@ -63,7 +84,8 @@ void QS::clear(){
     size = 0;
 }
 
-void QS::arraySize(){
-    size = sizeof(valueArray)/sizeof(valueArray[0]);
-    // cout << "the size of the array is: " << size << endl;
+void swap (int x, int y){
+    int temp = x;
+    x = y;
+    y = temp;
 }
