@@ -10,11 +10,12 @@ QS::~QS(){
 bool QS::createArray(int capacity){
     
     cout << "inside the createArray function. Capacity: " << capacity << endl;
+    size = capacity;
     if (capacity > 0){
         int *valueArray = new int[capacity];
 
         addIndex = 0;
-        size = capacity;
+        
         delete[]valueArray;
         return true;
     }
@@ -41,10 +42,10 @@ void QS::sortAll(){
 }
 int QS::medianOfThree(int left, int right){
     int middle = (left+right)/2;
-    if (size < 1){
+    if (addIndex < 1){
         return -1;
     }
-    if (left < 0 || right > size || left > right || middle <= 0){
+    if (left < 0 || right > size || left > right || middle < 0 || middle == 0 || middle < left){
         return -1;
     }
     if (valueArray[left] > valueArray[middle]){
