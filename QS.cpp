@@ -45,22 +45,64 @@ int QS::medianOfThree(int left, int right){
     if (addIndex < 1){
         return -1;
     }
-    if (left < 0 || right > size || left > right || middle < 0 || middle == 0 || middle < left){
+    if (left < 0 || right > size -1 || left > right || middle <= 0  || middle < left){
         return -1;
     }
+
     if (valueArray[left] > valueArray[middle]){
         swap(valueArray[left], valueArray[middle]);
     }
+
     if (valueArray[middle] > valueArray[right]){
         swap(valueArray[middle], valueArray[right]);
     }
+
     if (valueArray[middle] < valueArray[left]){
         swap(valueArray[middle], valueArray[left]);
     }
     return middle;
 }
 int QS::partition(int left, int right, int pivotIndex){
-    // cout << "inside the function" << endl;
+    if (addIndex < 1){
+        return -1;
+    }
+    if (left < 0 || right < 0 || left >= size ||right > size || left >= right || pivotIndex < left  || pivotIndex > right){
+        return -1;
+    }
+    swap(valueArray[left], valueArray[pivotIndex]);
+    
+    int up = left +1;
+    int down = right -1;
+    cout << "left: " << left << " right: " << right << " pivot: " << pivotIndex << endl;
+    for (int i = 0; i < size; i++){
+        cout << valueArray[i] << " ";
+    }
+    cout << endl;
+    
+    do{
+        while(valueArray[up] <= valueArray[left]){ // TODO might be an ||
+            cout << "up: " << up << endl;
+            up++;
+            if (up >= right-1){
+                break;
+            }
+                
+        }
+        while(valueArray[down] >= valueArray[left]){
+            cout << "down: " << down << endl;
+            down--;
+            if (down <= left+1){
+                break;
+            }
+        }
+
+        if (valueArray[up] < valueArray[down]){
+            swap(valueArray[up], valueArray[down]);
+
+        }
+    } while (up <= down);
+    
+    swap(valueArray[left], valueArray[down]);
     return 0;
 }
 string QS::getArray() const {
