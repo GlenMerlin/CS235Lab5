@@ -9,7 +9,7 @@ QS::~QS(){
 
 bool QS::createArray(int capacity){
     
-    cout << "inside the createArray function. Capacity: " << capacity << endl;
+    // cout << "inside the createArray function. Capacity: " << capacity << endl;
     size = capacity;
     if (capacity > 0){
         int *valueArray = new int[capacity];
@@ -25,7 +25,7 @@ bool QS::createArray(int capacity){
 }
 
 bool QS::addToArray(int value){
-    cout << "addIndex: " << addIndex << " is less than " << size << "." << endl;
+    // cout << "addIndex: " << addIndex << " is less than " << size << "." << endl;
     if (addIndex < size){
         valueArray[addIndex] = value;
         addIndex++;
@@ -38,7 +38,7 @@ bool QS::addToArray(int value){
 }
 
 void QS::sortAll(){
-    // cout << "inside the function" << endl;
+    medianOfThree(valueArray[0], valueArray[addIndex]);
 }
 int QS::medianOfThree(int left, int right){
     int middle = (left+right)/2;
@@ -66,13 +66,15 @@ int QS::partition(int left, int right, int pivotIndex){
     if (addIndex < 1){
         return -1;
     }
-    if (left < 0 || right < 0 || left >= size ||right > size || left >= right || pivotIndex < left  || pivotIndex > right){
+    if (left < 0 || right < 0 || left >= size || right > size || left >= right || pivotIndex < left  || pivotIndex > right){
         return -1;
     }
+
     swap(valueArray[left], valueArray[pivotIndex]);
     
-    int up = left +1;
-    int down = right -1;
+    int up, down;
+    up = left +1;
+    down = right;
     cout << "left: " << left << " right: " << right << " pivot: " << pivotIndex << endl;
     for (int i = 0; i < size; i++){
         cout << valueArray[i] << " ";
@@ -80,30 +82,24 @@ int QS::partition(int left, int right, int pivotIndex){
     cout << endl;
     
     do{
-        while(valueArray[up] <= valueArray[left]){ // TODO might be an ||
+        while(valueArray[left] > valueArray[up] && up != right){
             cout << "up: " << up << endl;
             up++;
-            if (up >= right-1){
-                break;
-            }
                 
         }
-        while(valueArray[down] >= valueArray[left]){
+        while(valueArray[left] <= valueArray[down] && down != left){
             cout << "down: " << down << endl;
             down--;
-            if (down <= left+1){
-                break;
-            }
         }
 
-        if (valueArray[up] < valueArray[down]){
+        if (up < down){
             swap(valueArray[up], valueArray[down]);
-
         }
-    } while (up <= down);
+
+    } while (up < down);
     
     swap(valueArray[left], valueArray[down]);
-    return 0;
+    return down;
 }
 string QS::getArray() const {
     string result = "";
