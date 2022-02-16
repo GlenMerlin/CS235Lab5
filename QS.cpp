@@ -4,28 +4,21 @@ using namespace std;
 
 QS::QS(){}
 QS::~QS(){
-    delete[]valueArray;
+    clear();
 }
 
 bool QS::createArray(int capacity){
     
-    // cout << "inside the createArray function. Capacity: " << capacity << endl;
-    size = capacity;
-    if (capacity > 0){
-        int *valueArray = new int[capacity];
-
-        addIndex = 0;
-        
-        delete[]valueArray;
-        return true;
+    if (valueArray != NULL){
+        clear();
     }
-    else{
-        return false;
-    }
+    size = capacity;    
+    valueArray = new int[capacity];
+    addIndex = 0;
+    return true;
 }
 
 bool QS::addToArray(int value){
-    // cout << "addIndex: " << addIndex << " is less than " << size << "." << endl;
     if (addIndex < size){
         valueArray[addIndex] = value;
         addIndex++;
@@ -38,14 +31,34 @@ bool QS::addToArray(int value){
 }
 
 void QS::sortAll(){
-    medianOfThree(valueArray[0], valueArray[addIndex]);
+    if (addIndex <= 1){
+        return;
+    }
+    quickSort(0, addIndex-1);
 }
+
+void QS::quickSort(int low, int high){
+    if (high - low < 1){
+        return;
+    }
+    int pivot = medianOfThree(low, high);
+    if (pivot < 0){
+        return;
+    }
+    pivot = partition(low, high, pivot);
+    if (pivot < 0){
+        return;
+    }
+    quickSort(low, pivot-1);
+    quickSort(pivot+1, high);
+}
+
 int QS::medianOfThree(int left, int right){
     int middle = (left+right)/2;
     if (addIndex < 1){
         return -1;
     }
-    if (left < 0 || right > size -1 || left > right || middle <= 0  || middle < left){
+    if (left < 0 || right > addIndex -1 || left > right || middle <= 0  || middle < left || left == right){
         return -1;
     }
 
@@ -57,11 +70,12 @@ int QS::medianOfThree(int left, int right){
         swap(valueArray[middle], valueArray[right]);
     }
 
-    if (valueArray[middle] < valueArray[left]){
-        swap(valueArray[middle], valueArray[left]);
+    if (valueArray[left] > valueArray[middle]){
+        swap(valueArray[left], valueArray[middle]);
     }
     return middle;
 }
+
 int QS::partition(int left, int right, int pivotIndex){
     if (addIndex < 1){
         return -1;
@@ -75,19 +89,14 @@ int QS::partition(int left, int right, int pivotIndex){
     int up, down;
     up = left +1;
     down = right;
-    cout << "left: " << left << " right: " << right << " pivot: " << pivotIndex << endl;
-    for (int i = 0; i < size; i++){
-        cout << valueArray[i] << " ";
-    }
-    cout << endl;
     
     do{
-        while(valueArray[left] > valueArray[up] && up != right){
+        while(valueArray[up] <= valueArray[left] && up < right){
             cout << "up: " << up << endl;
             up++;
                 
         }
-        while(valueArray[left] <= valueArray[down] && down != left){
+        while(valueArray[down] > valueArray[left] && down != left){
             cout << "down: " << down << endl;
             down--;
         }
@@ -101,26 +110,32 @@ int QS::partition(int left, int right, int pivotIndex){
     swap(valueArray[left], valueArray[down]);
     return down;
 }
+
 string QS::getArray() const {
+    if (addIndex < 1){
+        return "";
+    }
     string result = "";
     for (int i = 0; i < addIndex; i++){
         if (i < addIndex-1){
-            // cout << valueArray[i] << ", " << endl;
             result += to_string(valueArray[i]) + ",";
         }
         else {
-            // cout << "last one: " << valueArray[i] << endl;
             result += to_string(valueArray[i]) + "";
         }
     }
     return result;
 }
+
 int QS::getSize() const {
     return addIndex;
 }
+
 void QS::clear(){
     addIndex = 0;
     size = 0;
+    delete[]valueArray;
+    valueArray = NULL;
 }
 
 void swap (int x, int y){

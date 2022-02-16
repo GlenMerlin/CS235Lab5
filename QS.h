@@ -11,11 +11,13 @@ class QS: public QSInterface {
     QS();
     
     ~QS();
-    int *valueArray = new int[15];
+    int *valueArray = NULL;
     int addIndex = 0;
     int size;
 
     void sortAll() override;
+
+    void quickSort(int low, int high);
     
     int medianOfThree(int left, int right) override;
     
